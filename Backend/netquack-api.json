@@ -1,0 +1,825 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "netquack-api",
+    "version": "2020-11-13T13:22:36Z"
+  },
+  "servers": [
+    {
+      "url": "https://dcati6zcrh.execute-api.${AWS_REGION}.amazonaws.com/{basePath}",
+      "variables": {
+        "basePath": {
+          "default": "/dev"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/dongle": {
+      "get": {
+        "description": "Get a list of all existing dongles",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:${AWS_REGION}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS_REGION}:${AWS_USER}:function:${NETQUACK_API_GET_DONGLE_LAMBDA}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws"
+        }
+      },
+      "put": {
+        "description": "Update an existing dongle",
+        "parameters": [
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "float greater than or equal to -180 or less than or equal to 180",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "float greater than -90 and less than 90",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dongleKey",
+            "in": "query",
+            "description": "identification token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "existing name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-request-validator": "Convalida corpo, parametri di stringa query e intestazioni",
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:${AWS_REGION}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS_REGION}:${AWS_USER}:function:${NETQUACK_API_PUT_DONGLE_LAMBDA}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\n    \"name\": \"$input.params('name')\",\n    \"latitude\": \"$input.params('latitude')\",\n    \"longitude\": \"$input.params('longitude')\",\n    \"dongleKey\": \"$input.params('dongleKey')\"\n}"
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws"
+        }
+      },
+      "post": {
+        "description": "Register a new dongle",
+        "parameters": [
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "float greater than or equal to -180 or less than or equal to 180",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "max 32 chars matching /^[0-9a-zA-Z-_]+$/, cannot be 'any' or contain 'Shell'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "float greater than -90 and less than 90",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-request-validator": "Convalida corpo, parametri di stringa query e intestazioni",
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:${AWS_REGION}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS_REGION}:${AWS_USER}:function:${NETQUACK_API_POST_DONGLE_LAMBDA}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\n    \"name\": \"$input.params('name')\",\n    \"latitude\": \"$input.params('latitude')\",\n    \"longitude\": \"$input.params('longitude')\"\n}"
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "type": "aws"
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "X-Requested-With": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST,PUT'",
+                "method.response.header.X-Requested-With": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    },
+    "/query": {
+      "get": {
+        "description": "Get results of a query",
+        "parameters": [
+          {
+            "name": "next_token",
+            "in": "query",
+            "description": "string",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query_execution_id",
+            "in": "query",
+            "description": "string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-request-validator": "Convalida corpo, parametri di stringa query e intestazioni",
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:${AWS_REGION}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS_REGION}:${AWS_USER}:function:${NETQUACK_API_GET_QUERY_LAMBDA}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\n    \"query_execution_id\": \"$input.params('query_execution_id')\",\n    \"next_token\": \"$input.params('next_token')\"\n}"
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws"
+        }
+      },
+      "post": {
+        "description": "Request a query",
+        "parameters": [
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "YYYY-MM-DD date",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modulation",
+            "in": "query",
+            "description": "string among OOK, FSK2, GFSK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "YYYY-MM-DD date",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "frequency",
+            "in": "query",
+            "description": "float between 0 and 3000",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude_to",
+            "in": "query",
+            "description": "float greater than or equal to -180 or less than or equal to 180",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bitrate",
+            "in": "query",
+            "description": "float between 0 and 5000",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "latitude_to",
+            "in": "query",
+            "description": "float greater than -90 and less than 90",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude_from",
+            "in": "query",
+            "description": "float greater than or equal to -180 or less than or equal to 180",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "description": "string over 0123456789abcdef%_",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "latitude_from",
+            "in": "query",
+            "description": "float greater than -90 and less than 90",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-request-validator": "Convalida corpo, parametri di stringa query e intestazioni",
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:${AWS_REGION}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS_REGION}:${AWS_USER}:function:${NETQUACK_API_POST_QUERY_LAMBDA}/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\n    \"data\": \"$input.params('data')\",\n    \"date_from\": \"$input.params('date_from')\",\n    \"date_to\": \"$input.params('date_to')\",\n    \"latitude_from\": \"$input.params('latitude_from')\",\n    \"latitude_to\": \"$input.params('latitude_to')\",\n    \"longitude_from\": \"$input.params('longitude_from')\",\n    \"longitude_to\": \"$input.params('longitude_to')\",\n    \"frequency\": \"$input.params('frequency')\",\n    \"bitrate\": \"$input.params('bitrate')\",\n    \"modulation\": \"$input.params('modulation')\"\n}"
+          },
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws"
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Empty": {
+        "title": "Empty Schema",
+        "type": "object"
+      }
+    }
+  },
+  "x-amazon-apigateway-documentation": {
+    "version": "1",
+    "createdDate": "2020-11-13T13:23:00Z",
+    "documentationParts": [
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/dongle",
+          "method": "GET"
+        },
+        "properties": {
+          "description": "Get a list of all existing dongles"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/dongle",
+          "method": "POST"
+        },
+        "properties": {
+          "description": "Register a new dongle"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/dongle",
+          "method": "PUT"
+        },
+        "properties": {
+          "description": "Update an existing dongle"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/query",
+          "method": "GET"
+        },
+        "properties": {
+          "description": "Get results of a query"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/query",
+          "method": "POST"
+        },
+        "properties": {
+          "description": "Request a query"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "bitrate"
+        },
+        "properties": {
+          "description": "float between 0 and 5000"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "data"
+        },
+        "properties": {
+          "description": "string over 0123456789abcdef%_"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "date_from"
+        },
+        "properties": {
+          "description": "YYYY-MM-DD date"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "date_to"
+        },
+        "properties": {
+          "description": "YYYY-MM-DD date"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "PUT",
+          "name": "dongleKey"
+        },
+        "properties": {
+          "description": "identification token"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "frequency"
+        },
+        "properties": {
+          "description": "float between 0 and 3000"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "POST",
+          "name": "latitude"
+        },
+        "properties": {
+          "description": "float greater than -90 and less than 90"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "PUT",
+          "name": "latitude"
+        },
+        "properties": {
+          "description": "float greater than -90 and less than 90"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "latitude_from"
+        },
+        "properties": {
+          "description": "float greater than -90 and less than 90"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "latitude_to"
+        },
+        "properties": {
+          "description": "float greater than -90 and less than 90"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "POST",
+          "name": "longitude"
+        },
+        "properties": {
+          "description": "float greater than or equal to -180 or less than or equal to 180"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "PUT",
+          "name": "longitude"
+        },
+        "properties": {
+          "description": "float greater than or equal to -180 or less than or equal to 180"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "longitude_from"
+        },
+        "properties": {
+          "description": "float greater than or equal to -180 or less than or equal to 180"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "longitude_to"
+        },
+        "properties": {
+          "description": "float greater than or equal to -180 or less than or equal to 180"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "POST",
+          "name": "modulation"
+        },
+        "properties": {
+          "description": "string among OOK, FSK2, GFSK"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "POST",
+          "name": "name"
+        },
+        "properties": {
+          "description": "max 32 chars matching /^[0-9a-zA-Z-_]+$/, cannot be 'any' or contain 'Shell'"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/dongle",
+          "method": "PUT",
+          "name": "name"
+        },
+        "properties": {
+          "description": "existing name"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "GET",
+          "name": "next_token"
+        },
+        "properties": {
+          "description": "string"
+        }
+      },
+      {
+        "location": {
+          "type": "QUERY_PARAMETER",
+          "path": "/query",
+          "method": "GET",
+          "name": "query_execution_id"
+        },
+        "properties": {
+          "description": "string"
+        }
+      },
+      {
+        "location": {
+          "type": "RESOURCE"
+        },
+        "properties": {
+          "description": "NetQuack API"
+        }
+      },
+      {
+        "location": {
+          "type": "RESOURCE",
+          "path": "/dongle"
+        },
+        "properties": {
+          "description": "Dongle resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESOURCE",
+          "path": "/query"
+        },
+        "properties": {
+          "description": "Query resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/dongle",
+          "method": "GET",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": ""
+        }
+      }
+    ]
+  },
+  "x-amazon-apigateway-gateway-responses": {
+    "DEFAULT_4XX": {
+      "responseParameters": {
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      }
+    },
+    "DEFAULT_5XX": {
+      "responseParameters": {
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      }
+    }
+  },
+  "x-amazon-apigateway-request-validators": {
+    "Convalida corpo, parametri di stringa query e intestazioni": {
+      "validateRequestParameters": true,
+      "validateRequestBody": true
+    }
+  }
+}
