@@ -1,5 +1,16 @@
 #!/bin/sh
 
+# generate ZIP archives for Lambda functions
+cd Lambda
+for function in ./*; do
+  cd $function
+  zip -r $function.zip *
+  mv $function.zip ../$function.zip
+  cd ..
+done
+cd ..
+
+# deploy backend
 terraform init
 echo yes | terraform apply
 echo { > config.json
