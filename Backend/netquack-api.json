@@ -6,10 +6,10 @@
   },
   "servers": [
     {
-      "url": "https://dcati6zcrh.execute-api.${AWS_REGION}.amazonaws.com/{basePath}",
+      "url": "https://2ror9g6zck.execute-api.eu-west-1.amazonaws.com/{basePath}",
       "variables": {
         "basePath": {
-          "default": "/dev"
+          "default": "/prod"
         }
       }
     }
@@ -500,7 +500,7 @@
   },
   "x-amazon-apigateway-documentation": {
     "version": "1",
-    "createdDate": "2020-11-13T13:23:00Z",
+    "createdDate": "2020-12-04T15:05:42Z",
     "documentationParts": [
       {
         "location": {
@@ -550,6 +550,15 @@
         },
         "properties": {
           "description": "Request a query"
+        }
+      },
+      {
+        "location": {
+          "type": "MODEL",
+          "name": "Empty"
+        },
+        "properties": {
+          "title": "Empty Schema"
         }
       },
       {
@@ -797,22 +806,88 @@
         "properties": {
           "description": ""
         }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/dongle",
+          "method": "OPTIONS",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "200 response"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/dongle",
+          "method": "POST",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "200 response"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/dongle",
+          "method": "PUT",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "200 response"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/query",
+          "method": "GET",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "200 response"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/query",
+          "method": "OPTIONS",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "200 response"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/query",
+          "method": "POST",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "200 response"
+        }
       }
     ]
   },
   "x-amazon-apigateway-gateway-responses": {
-    "DEFAULT_4XX": {
-      "responseParameters": {
-        "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
-        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
-        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-      }
-    },
     "DEFAULT_5XX": {
       "responseParameters": {
         "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
-        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
-        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'"
+      }
+    },
+    "DEFAULT_4XX": {
+      "responseParameters": {
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'"
       }
     }
   },
